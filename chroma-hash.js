@@ -38,16 +38,15 @@
                   });
         };
 
-        var floor16Bits = function(c, stepSize) {
-            c = parseInt(c, 16);
-            var divideBy = Math.floor(256 / stepSize);
-            var newC = Math.floor(c / divideBy) * divideBy;
-            return newC;
-        }
         var floorColor = function(color, rgbBits) {
             stepSize = Math.pow(2, rgbBits / 3);
             colorArr = [color.slice(0,2), color.slice(2,4), color.slice(4,6)];
-            colorArr = jQuery.map(colorArr, function(c) { return floor16Bits(c, stepSize).toString(16); });
+            colorArr = jQuery.map(colorArr, function(c) {
+                    c = parseInt(c, 16);
+                    var divideBy = Math.floor(256 / stepSize);
+                    var newC = Math.floor(c / divideBy) * divideBy;
+                    return newC.toString(16);
+                    });
             return colorArr.join('');
         };
         
