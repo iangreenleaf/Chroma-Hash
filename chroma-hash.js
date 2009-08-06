@@ -14,7 +14,7 @@
           bars: 3,
           salt: "7be82b35cb0199120eea35a4507c9acf",
           minimum: 6,
-          rgbBits: 24
+          rgbStepSize: 1
       };
 
       var options = $.extend(defaults, options);
@@ -38,13 +38,11 @@
                   });
         };
 
-        var floorColor = function(color, rgbBits) {
-            stepSize = Math.pow(2, rgbBits / 3);
+        var floorColor = function(color, rgbStepSize) {
             colorArr = [color.slice(0,2), color.slice(2,4), color.slice(4,6)];
             colorArr = jQuery.map(colorArr, function(c) {
                     c = parseInt(c, 16);
-                    var divideBy = Math.floor(256 / stepSize);
-                    var newC = Math.floor(c / divideBy) * divideBy;
+                    var newC = Math.floor(c / rgbStepSize) * rgbStepSize;
                     return newC.toString(16);
                     });
             return colorArr.join('');
@@ -74,7 +72,7 @@
           var id     = $(this).attr('id');
           var md5    = hex_md5('' + $(this).val() + ':' + o.salt);
           var colors = md5.match(/([\dABCDEF]{6})/ig);
-          colors = jQuery.map(colors, function(c) { return floorColor(c, o.rgbBits); });
+          colors = jQuery.map(colors, function(c) { return floorColor(c, o.rgbStepSize); });
           $(".chroma-hash").stop();
           
           if($(this).val().length < o.minimum) {             
