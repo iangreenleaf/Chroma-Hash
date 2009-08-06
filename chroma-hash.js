@@ -14,7 +14,7 @@
           bars: 3,
           salt: "7be82b35cb0199120eea35a4507c9acf",
           minimum: 6,
-          numColors: 0
+          rgbBits: 24
       };
 
       var options = $.extend(defaults, options);
@@ -38,16 +38,16 @@
                   });
         };
 
-        var floor16Bits = function(c, rangeSize) {
+        var floor16Bits = function(c, stepSize) {
             c = parseInt(c, 16);
-            var divideBy = Math.floor(256 / rangeSize);
+            var divideBy = Math.floor(256 / stepSize);
             var newC = Math.floor(c / divideBy) * divideBy;
             return newC;
         }
-        var floorColor = function(color, numColors) {
-            setSize = numColors / 3;
+        var floorColor = function(color, rgbBits) {
+            stepSize = Math.pow(2, rgbBits / 3);
             colorArr = [color.slice(0,2), color.slice(2,4), color.slice(4,6)];
-            colorArr = colorArr.map(function(c) { return floor16Bits(c, setSize).toString(16); });
+            colorArr = colorArr.map(function(c) { return floor16Bits(c, stepSize).toString(16); });
             return colorArr.join('');
         };
         
@@ -75,9 +75,7 @@
           var id     = $(this).attr('id');
           var md5    = hex_md5('' + $(this).val() + ':' + o.salt);
           var colors = md5.match(/([\dABCDEF]{6})/ig);
-          if (o.numColors > 0) {
-              colors = colors.map(function(c) { return floorColor(c, o.numColors); });
-          }
+          colors = colors.map(function(c) { return floorColor(c, o.rgbBits); });
           $(".chroma-hash").stop();
           
           if($(this).val().length < o.minimum) {             
