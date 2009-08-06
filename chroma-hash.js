@@ -47,7 +47,7 @@
         var floorColor = function(color, rgbBits) {
             stepSize = Math.pow(2, rgbBits / 3);
             colorArr = [color.slice(0,2), color.slice(2,4), color.slice(4,6)];
-            colorArr = colorArr.map(function(c) { return floor16Bits(c, stepSize).toString(16); });
+            colorArr = jQuery.map(colorArr, function(c) { return floor16Bits(c, stepSize).toString(16); });
             return colorArr.join('');
         };
         
@@ -75,7 +75,7 @@
           var id     = $(this).attr('id');
           var md5    = hex_md5('' + $(this).val() + ':' + o.salt);
           var colors = md5.match(/([\dABCDEF]{6})/ig);
-          colors = colors.map(function(c) { return floorColor(c, o.rgbBits); });
+          colors = jQuery.map(colors, function(c) { return floorColor(c, o.rgbBits); });
           $(".chroma-hash").stop();
           
           if($(this).val().length < o.minimum) {             
