@@ -17,12 +17,13 @@ Try it out at: <tt>[http://mattt.github.com/Chroma-Hash/](http://mattt.github.co
 ## Usage
 
 <code>
-  $("input:password").chromaHash({bars: 3, salt:"7be82b35cb0199120eea35a4507c9acf", minimum:6});
+  $("input:password").chromaHash({bars: 3, salt:"7be82b35cb0199120eea35a4507c9acf", minimum:6, rgbStepSize:64});
 </code>
 
 - <tt>bars</tt> number of bars displayed (1,2,3, or 4)
 - <tt>salt</tt> value to be appended when calculating hash function
 - <tt>minimum</tt> minimum number of characters needed for grayscale bars to be displayed in color
+- <tt>rgbStepSize</tt> controls the granularity of the color values. Bigger is safer - 32 or 64 is a good default.
 
 ## Requirements
 - jQuery 1.3+
